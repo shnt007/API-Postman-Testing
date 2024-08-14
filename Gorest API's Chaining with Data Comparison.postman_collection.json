@@ -1,0 +1,260 @@
+{
+	"info": {
+		"_postman_id": "7fe07967-dfee-4441-8adf-f5a374e302c6",
+		"name": "Gorest API's Chaining with Data Comparison",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22313257"
+	},
+	"item": [
+		{
+			"name": "Create a user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// To generate name and email\r",
+							"var random = Math.random().toString(36).substring(2);\r",
+							"\r",
+							"var name = \"Scott\"+ random ;\r",
+							"var email = \"scott\"+random+\"@email.com\";\r",
+							"\r",
+							"// Creating environment for username and email.\r",
+							"pm.environment.set(\"name_env\",name);\r",
+							"pm.environment.set(\"email_env\",email);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Chaning the api \r",
+							"// Id environment is created as part of the test as it will be generated after the test.\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"id_env\",jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\" {{name_env}}\", \r\n    \"gender\":\"male\", \r\n    \"email\":\"{{email_env}}\", \r\n    \"status\":\"inactive\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_gorest_collection}}/public/v2/users",
+					"host": [
+						"{{url_gorest_collection}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user detail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/* Validating the JSON fields in respons\r",
+							"Using the same environment variable of POST request for comparision purpose */\r",
+							"\r",
+							"pm.test(\"Values of JSON fields\",()=>{\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// TO get the Environment variable \r",
+							"var id = pm.environment.get(\"id_env\");\r",
+							"var name = pm.environment.get(\"name_env\");\r",
+							"\r",
+							"\r",
+							"//Capturing the data from the respose and comparing the environment variable\r",
+							"pm.expect(jsonData.id).to.eq(id);            \r",
+							"pm.expect(jsonData.name).to.eql(name);\r",
+							"pm.expect(jsonData.email).to.eql(pm.environment.get(\"email_env\"));\r",
+							"});\r",
+							"\r",
+							"\r",
+							"//Testing status code\r",
+							"pm.test(\"Status code is 200\",()=>{\r",
+							"//pm.response.to.have.status(200);\r",
+							"\r",
+							"// Checking the status code is one of them\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+							"});\r",
+							"\r",
+							"//Testing the Content Type header is present\r",
+							"pm.test(\"Content-type header is present\",()=> {\r",
+							"    //pm.response.to.have.header(\"Content-Type\");\r",
+							"\r",
+							"    // Checking if header have a particular value\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json; charset=utf-8\");\r",
+							"});\r",
+							"\r",
+							"// Testing the response time\r",
+							"pm.test(\"Response Time is above 100ms\",()=> {\r",
+							"    pm.expect(pm.response.responseTime).to.be.above(100);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_gorest_collection}}/public/v2/users/{{$id_env}}",
+					"host": [
+						"{{url_gorest_collection}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{$id_env}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update the user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var random = Math.random().toString(36).substring(2)\r",
+							"\r",
+							"var name = \"Harry\"+ random;\r",
+							"var email = \"harry\"+ random + \"@email.com\";\r",
+							"\r",
+							"pm.environment.set(\"name_env\",name);\r",
+							"pm.environment.set(\"email_env\",email);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\" {{name_env}}\", \r\n    \"email\":\"{{email_env}}\", \r\n    \"status\":\"active\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_gorest_collection}}/public/v2/users/{{id_env}}",
+					"host": [
+						"{{url_gorest_collection}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{id_env}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Deleting the variables\r",
+							"pm.environment.unset(\"id_env\");\r",
+							"pm.environment.unset(\"name_env\");\r",
+							"pm.environment.unset(\"email_env\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url_gorest_collection}}/public/v2/users/{{id_env}}",
+					"host": [
+						"{{url_gorest_collection}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{id_env}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "c0be01ab81f5ec922f266355b7a692312e34e1410b46bc207cc26e717bc0459d",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url_gorest_collection",
+			"value": "https://gorest.co.in",
+			"type": "string"
+		}
+	]
+}
