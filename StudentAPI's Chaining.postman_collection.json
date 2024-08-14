@@ -1,0 +1,226 @@
+{
+	"info": {
+		"_postman_id": "df2dd368-3afe-4fb4-a1ec-4be1d5ad3165",
+		"name": "StudentAPI's Chaining",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22313257"
+	},
+	"item": [
+		{
+			"name": "Create new student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// to get response and save into variable\r",
+							"var jsonData=JSON.parse(responseBody);\r",
+							"pm.environment.set(\"id\",jsonData.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Shnt\",\r\n    \"address\": \"ktm\",\r\n    \"phone\": 121312312123,\r\n    \"course\": [\r\n        \"QA\",\r\n        \"Python\",\r\n        \"Java\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get single student data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*\r",
+							"// 1. Testing the status code \r",
+							"pm.test(\"Status code is 200\",()=>{\r",
+							"    //pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,202]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"//2. Testing the header content type\r",
+							"pm.test(\"Content-Types header is application/json\",()=>{\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"    //pm.expect(pm.response.headers.get('Content-Type')).to.equal('application/json');\r",
+							"});\r",
+							"\r",
+							"//3. Testing cookie\r",
+							"pm.test(\"Cookie is Present in response\",()=>{\r",
+							"    pm.expect(pm.cookies.has('language')).to.be.true;\r",
+							"});\r",
+							"\r",
+							"// 4. Testing the Response Time\r",
+							"pm.test(\"Response Time is below 200ms\",()=>{\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"//5. Testing datatype response\r",
+							"pm.test(\"Test datatypes of the response\",()=>{\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.name).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.address).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.phone).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.course).to.be.a(\"array\");\r",
+							"});\r",
+							"\r",
+							"// 6. Testing Array Properties\r",
+							"pm.test(\"Test array properties\", ()=>{\r",
+							"    const jsonData = pm.response.json();\r",
+							"    //This is the single value validation\r",
+							"    //pm.expect(jsonData.course).to.include(\"Math\");\r",
+							"    //This is the multiple value validation\r",
+							"    pm.expect(jsonData.course).to.have.members([\"Math\",\"Computer\",\"Science\"]);\r",
+							"});\r",
+							"\r",
+							"// 7. Validating JSON field in Response\r",
+							"pm.test(\"Values of all field in Response\",()=>{\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.be.equal('1');\r",
+							"    pm.expect(jsonData.name).to.be.equal(\"Nita\");\r",
+							"    pm.expect(jsonData.address).to.be.equal(\"ktm\");\r",
+							"    pm.expect(jsonData.phone).to.be.equal(1213123);\r",
+							"    pm.expect(jsonData.course[0]).to.be.equal(\"Math\");\r",
+							"    pm.expect(jsonData.course[1]).to.be.equal(\"Computer\");\r",
+							"    pm.expect(jsonData.course[2]).to.be.equal(\"Science\");\r",
+							"});\r",
+							"\r",
+							"//8. Testing JSON Schema\r",
+							"var schema = {\r",
+							"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\r",
+							"  \"title\": \"Generated schema for Root\",\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"          \"id\": {\r",
+							"            \"type\": \"string\"\r",
+							"          },\r",
+							"          \"name\": {\r",
+							"            \"type\": \"string\",\r",
+							"            \"maxLength\": 7\r",
+							"          },\r",
+							"          \"address\": {\r",
+							"            \"type\": \"string\"\r",
+							"          },\r",
+							"          \"phone\": {\r",
+							"            \"type\": \"number\"\r",
+							"          },\r",
+							"          \"course\": {\r",
+							"            \"type\": \"array\",\r",
+							"            \"items\": {\r",
+							"              \"type\": \"string\"\r",
+							"          \r",
+							"        },\r",
+							"        \"required\": [\r",
+							"          \"id\",\r",
+							"          \"name\",\r",
+							"          \"address\",\r",
+							"          \"phone\",\r",
+							"          \"course\"\r",
+							"        ]\r",
+							"      }\r",
+							"    }\r",
+							"  }\r",
+							"\r",
+							"\r",
+							"pm.test(\"Schema is valid\",() => {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(tv4.validate(jsonData,schema)).to.be.true;\r",
+							"});\r",
+							"\r",
+							"*/\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/students/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete selected data",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/students/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
