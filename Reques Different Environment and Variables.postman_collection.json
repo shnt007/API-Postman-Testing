@@ -1,0 +1,206 @@
+{
+	"info": {
+		"_postman_id": "db451c06-d8b4-447e-bfc5-2cef81492976",
+		"name": "Reques Different Environment and Variables",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22313257"
+	},
+	"item": [
+		{
+			"name": "GET List User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//Local Variable\r",
+							"pm.variables.set(\"url_local\",\"https://reqres.in\");\r",
+							"\r",
+							"//Global variable\r",
+							"pm.globals.set(\"userid_global\",\"2\");\r",
+							"\r",
+							"//Environment variable\r",
+							"pm.environment.set(\"userid_qa_env\",\"2\");\r",
+							"\r",
+							"// Collection Variable\r",
+							"pm.collectionVariables.set(\"userid_collect\",\"2\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// To get the value id stored as in variable \r",
+							"console.log(pm.globals.get(\"userid_global\"));\r",
+							"console.log(pm.environment.get(\"userid_qa_env\"));\r",
+							"console.log(pm.collectionVariables.get(\"userid_collect\"));\r",
+							"console.log(pm.variables.get(\"url_local\"));\r",
+							"\r",
+							"\r",
+							"/*\r",
+							"// Remove Global variable \r",
+							"pm.globals.unset(\"userid_global\");\r",
+							"\r",
+							"// Remove Environment variable\r",
+							"pm.environment.unset(\"userid_qa_env\");\r",
+							"\r",
+							"// Remove Collection Variable\r",
+							"pm.collectionVariables.unset(\"userid_collect\");\r",
+							"*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_local}}/api/users?page={{userid_collect}}",
+					"host": [
+						"{{url_local}}"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "{{userid_collect}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"shnt\",\r\n    \"job\": \"qa intern\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_global}}/api/users/930",
+					"host": [
+						"{{url_global}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"930"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"shnt d\",\r\n    \"job\": \"qa intern\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_global}}/api/users/960",
+					"host": [
+						"{{url_global}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"960"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url_global}}/api/users/930",
+					"host": [
+						"{{url_global}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"930"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_dev_env}}/api/users",
+					"host": [
+						"{{url_dev_env}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url_collect",
+			"value": "https://reqres.in",
+			"type": "string"
+		},
+		{
+			"key": "userid_collect",
+			"value": ""
+		}
+	]
+}
