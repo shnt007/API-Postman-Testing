@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "814fd604-1411-4c10-9645-86ed26e14eae",
+		"name": "BookAPI with Data Driven Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37644286"
+	},
+	"item": [
+		{
+			"name": "Submit an order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Checking Status code",
+							"pm.test(\"Status code shoulde be 201\", () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"// Define responseBody variable and Creating environment variable",
+							"var jsonData = JSON.parse(responseBody);                ",
+							"pm.environment.set(\"orderid_env\", jsonData.orderId);",
+							"console.log(jsonData);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"bookId\":\"{{BookID}}\",\n    \"customerName\":\"{{CustomerName}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get  an Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Checking Status code",
+							"pm.test(\"Checking Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"//Checking OrderId present in the response body",
+							"pm.test(\"Check OrderId present in the response body\", () => {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.equal(pm.environment.get(\"orderid_env\"));",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/orders/{{orderid_env}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders",
+						"{{orderid_env}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Checking the status code",
+							"pm.test(\"Status code is 204\", () => {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"// Unsetting the orderid environment",
+							"pm.environment.unset(\"orderid_env\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/orders/{{orderid_env}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders",
+						"{{orderid_env}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eaf655dbf438c7f00946ec92a989821fe2c06c3858eac8959aa31bcfbff543b3",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://simple-books-api.glitch.me",
+			"type": "string"
+		}
+	]
+}
