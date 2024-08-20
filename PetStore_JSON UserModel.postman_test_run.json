@@ -1,0 +1,146 @@
+{
+	"id": "e722a3e6-7187-4af5-a1dd-83bc8568c153",
+	"name": "PetStore_JSON UserModel",
+	"timestamp": "2024-08-15T03:35:35.410Z",
+	"collection_id": "37644286-7a6747ff-26bf-4224-adc3-6c9a51d93e00",
+	"folder_id": 0,
+	"environment_id": "37644286-0b6e174b-7724-4df4-90a5-42dcc36499f8",
+	"totalPass": 4,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2024-08-15T03:35:31.601Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "502503de-d0bf-4aaa-af4e-3f4297b93ee3",
+			"name": "POST User",
+			"url": "https://petstore.swagger.io/v2/user",
+			"time": 1083,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Checking the Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Checking the Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1083
+			],
+			"allTests": [
+				{
+					"Checking the Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "017c3a41-6eea-4175-a9dd-d929caf6bcc8",
+			"name": "GET User by name",
+			"url": "https://petstore.swagger.io/v2/user/johnszmynr3lvyb",
+			"time": 246,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				246
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "29eda147-6019-40f0-8b13-1dd5aa7ef970",
+			"name": "PUT User by Name",
+			"url": "https://petstore.swagger.io/v2/user/johnszmynr3lvyb",
+			"time": 240,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				240
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "3d16920e-a348-4cc3-b312-7666da23ad9b",
+			"name": "Delete User by Name",
+			"url": "https://petstore.swagger.io/v2/user/johnszmynr3lvyb",
+			"time": 266,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				266
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 1835,
+	"collection": {
+		"requests": [
+			{
+				"id": "502503de-d0bf-4aaa-af4e-3f4297b93ee3",
+				"method": "POST"
+			},
+			{
+				"id": "017c3a41-6eea-4175-a9dd-d929caf6bcc8",
+				"method": "GET"
+			},
+			{
+				"id": "29eda147-6019-40f0-8b13-1dd5aa7ef970",
+				"method": "PUT"
+			},
+			{
+				"id": "3d16920e-a348-4cc3-b312-7666da23ad9b",
+				"method": "DELETE"
+			}
+		]
+	}
+}
