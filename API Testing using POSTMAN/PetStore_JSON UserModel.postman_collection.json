@@ -16,13 +16,13 @@
 							"const randomnum = Math.floor((Math.random()*100+1));\r",
 							"var randomstr = \"john\"+Math.random().toString(36).substring(2);\r",
 							"\r",
-							"pm.environment.set(\"id\",randomnum);\r",
+							"pm.collectionVariables.set(\"id\",randomnum);\r",
 							"pm.collectionVariables.set(\"username\",randomstr);\r",
 							"pm.collectionVariables.set(\"firstname\",randomstr);\r",
 							"pm.collectionVariables.set(\"lastname\",randomstr);\r",
 							"pm.collectionVariables.set(\"email\",\"john\"+randomstr+ \"@email.com\");\r",
 							"pm.collectionVariables.set(\"password\",randomstr);\r",
-							"pm.collectionVariables.set(\"phone\",1111111111);\r",
+							"pm.collectionVariables.set(\"phone\",'+977 98'+randomnum+100+1+randomnum);\r",
 							"pm.collectionVariables.set(\"userStatus\",0);"
 						],
 						"type": "text/javascript",
@@ -33,11 +33,22 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"// Checking the status code\r",
-							"\r",
+							"// /* Checking the status code */\r",
 							"pm.test(\"Checking the Status code is 200\",()=>{\r",
 							"    pm.response.to.have.status(200);\r",
-							"});"
+							"});\r",
+							"\r",
+							"// /* Checking Content Type Header is application/xml */\r",
+							"pm.test(\"Content-Types header is application/xml\",()=>{\r",
+							"    pm.response.to.have.header(\"Content-Type\",\"application/xml\");\r",
+							"    }\r",
+							");\r",
+							"\r",
+							"// /* Checking the reponse time  */\r",
+							"pm.test(\"Checking the response time\",()=>{\r",
+							"    pm.expect(pm.response.responseTime).to.be.above(100);\r",
+							"    }\r",
+							");"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -89,11 +100,127 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"// Checking the status code 200\r",
-							"\r",
-							"pm.test(\"Status code is 200\",()=>{\r",
+							"// /* Checking the status code */\r",
+							"pm.test(\"Checking the Status code is 200\",()=>{\r",
 							"    pm.response.to.have.status(200);\r",
-							"});"
+							"});\r",
+							"\r",
+							"// /* Checking Content Type Header is application/json */\r",
+							"pm.test(\"Content-Types header is application/json\",()=>{\r",
+							"    pm.response.to.have.header(\"Content-Type\",\"application/json\");\r",
+							"    }\r",
+							");\r",
+							"\r",
+							"// /* Checking the reponse time  */\r",
+							"pm.test(\"Checking the response time\",()=>{\r",
+							"    pm.expect(pm.response.responseTime).to.be.above(100);\r",
+							"    }\r",
+							");\r",
+							"\r",
+							" // Testing cookie\r",
+							"pm.test(\"Cookie is Present in response\",()=>{\r",
+							"    pm.expect(pm.cookies.has('language')).to.be.false;\r",
+							"});\r",
+							"\r",
+							"// Testing Response datatypes\r",
+							"pm.test(\"Test datatypes of the response\",()=>{\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.username).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.firstName).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.lastName).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.email).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.password).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.phone).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.userStatus).to.be.a(\"number\");\r",
+							"    \r",
+							"});\r",
+							"\r",
+							"\r",
+							"// Validating JSON field in Response\r",
+							"pm.test(\"Values of all field in Response\",()=>{\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.be.equal(pm.collectionVariables.get('id'));\r",
+							"    pm.expect(jsonData.username).to.be.equal(pm.collectionVariables.get('username'));\r",
+							"    pm.expect(jsonData.firstName).to.be.equal(pm.collectionVariables.get('firstname'));\r",
+							"    pm.expect(jsonData.lastName).to.be.equal(pm.collectionVariables.get('lastname'));\r",
+							"    pm.expect(jsonData.email).to.be.equal(pm.collectionVariables.get('email'));\r",
+							"    pm.expect(jsonData.password).to.be.equal(pm.collectionVariables.get('password'));\r",
+							"    pm.expect(jsonData.phone).to.be.equal(pm.collectionVariables.get('phone'));\r",
+							"    pm.expect(jsonData.userStatus).to.be.equal(pm.collectionVariables.get('userStatus'));\r",
+							"});\r",
+							"\r",
+							"/* Testing schema  */\r",
+							"var schema={\r",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"id\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    },\r",
+							"    \"username\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"firstName\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"lastName\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"email\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"password\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"phone\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"userStatus\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\r",
+							"    \"id\",\r",
+							"    \"username\",\r",
+							"    \"firstName\",\r",
+							"    \"lastName\",\r",
+							"    \"email\",\r",
+							"    \"password\",\r",
+							"    \"phone\",\r",
+							"    \"userStatus\"\r",
+							"  ]\r",
+							"}\r",
+							"\r",
+							"\r",
+							"// Validating the Schema using tv4\r",
+							"pm.test(\"Schema is valid\",() => {\r",
+							"     var jsonData = pm.response.json();\r",
+							"     pm.expect(tv4.validate(jsonData,schema)).to.be.true;\r",
+							"}); \r",
+							"\r",
+							"/* Validating the Schem using ajv */\r",
+							"// var Ajv = require('ajv');\r",
+							"// var ajv = new Ajv();\r",
+							"// const validate = ajv.compile(schema);\r",
+							"// var jsonData = pm.response.json();\r",
+							"\r",
+							"// pm.test(\"Schema is valid\",()=>{\r",
+							"//     const valid = validate(jsonData);\r",
+							"//     pm.expect(valid).to.be.true;\r",
+							"// });\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -144,8 +271,6 @@
 							"\r",
 							"pm.collectionVariables.set(\"email\",\"john\"+randomstr+\"@email.com\");\r",
 							"pm.collectionVariables.set(\"phone\",222222222);\r",
-							"\r",
-							"\r",
 							""
 						],
 						"type": "text/javascript",
@@ -229,9 +354,59 @@
 			"response": []
 		}
 	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
-			"key": "usernames",
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "username",
+			"value": ""
+		},
+		{
+			"key": "firstname",
+			"value": ""
+		},
+		{
+			"key": "lastname",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "phone",
+			"value": ""
+		},
+		{
+			"key": "userStatus",
 			"value": ""
 		}
 	]

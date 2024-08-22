@@ -1,0 +1,72 @@
+{
+  "students": [
+    {
+      "id": "1",
+      "name": "Nita",
+      "address": "ktm",
+      "phone": 1213123,
+      "course": [
+        "Math",
+        "Computer",
+        "Science"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Shyam",
+      "address": "bkt",
+      "phone": 1213123,
+      "course": [
+        "Social",
+        "Nepali",
+        "Science"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Hari",
+      "address": "lil",
+      "phone": 1213123,
+      "course": [
+        "Chemistry",
+        "Computer",
+        "English"
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Sita",
+      "address": "ktm",
+      "phone": 1213123,
+      "course": [
+        "Physic",
+        "Computer",
+        "Science"
+      ]
+    },
+    {
+      "id": "c4ce",
+      "email": "sita@gmail.com",
+      "first_name": "Sita",
+      "last_name": "Khadka"
+    },
+    {
+      "id": "13e2",
+      "email": "sita@gmail.com",
+      "first_name": "Sita",
+      "last_name": "Khadka"
+    },
+    {
+      "id": "fc3e",
+      "email": "sita@gmail.com",
+      "first_name": "Sita",
+      "last_name": "Khadka"
+    },
+    {
+      "id": "5bda",
+      "email": "sita@gmail.com",
+      "first_name": "Sita",
+      "last_name": "Khadka"
+    }
+  ]
+}
