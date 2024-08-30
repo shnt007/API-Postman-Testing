@@ -1,0 +1,1237 @@
+{
+	"info": {
+		"_postman_id": "90cfab1d-c8e3-443a-8d8f-ad09417685ea",
+		"name": "Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37644286",
+		"_collection_link": "https://martian-crater-52768.postman.co/workspace/Intern~2674f9cc-1b3d-4945-a036-eb9b61fa9bb7/collection/37644286-90cfab1d-c8e3-443a-8d8f-ad09417685ea?action=share&source=collection_link&creator=37644286"
+	},
+	"item": [
+		{
+			"name": "Signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the JSON body as JSON",
+							"var jsonData = pm.response.json();",
+							"",
+							"var success_schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"status\": {",
+							"            \"type\": \"boolean\"",
+							"        },",
+							"        \"statusCode\": {",
+							"            \"type\": \"integer\"",
+							"        },",
+							"        \"data\": {",
+							"            \"type\": \"object\",",
+							"            \"properties\": {",
+							"                \"newUser\": {",
+							"                    \"type\": \"object\",",
+							"                    \"properties\": {",
+							"                        \"id\": {",
+							"                            \"type\": \"integer\"",
+							"                        },",
+							"                        \"email\": {",
+							"                            \"type\": \"string\",",
+							"                            'pattern': \"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$\"",
+							"                        },",
+							"                        \"country_code\": {",
+							"                            \"type\": \"string\"",
+							"                        },",
+							"                        \"created_at\": {",
+							"                            \"type\": \"null\"",
+							"                        },",
+							"                        \"deleted_at\": {",
+							"                            \"type\": \"null\"",
+							"                        },",
+							"                        \"is_verified\": {",
+							"                            \"type\": \"boolean\",",
+							"                            'enum': [true, false]",
+							"                        },",
+							"                        \"last_logged_in\": {",
+							"                            \"type\": [\"string\", null]",
+							"                        },",
+							"                        \"updated_at\": {",
+							"                            \"type\": \"null\"",
+							"                        },",
+							"                        \"avatar_file\": {",
+							"                            \"type\": \"null\"",
+							"                        },",
+							"                        \"full_name\": {",
+							"                            \"type\": \"string\",",
+							"                            \"pattern\": \"^[A-Za-z]+(?: [A-Za-z]+)*$\"",
+							"                        },",
+							"                        \"heat_score\": {",
+							"                            \"type\": \"integer\"",
+							"                        }",
+							"                    },",
+							"                    \"required\": [",
+							"                        \"id\",",
+							"                        \"email\",",
+							"                        \"country_code\",",
+							"                        \"created_at\",",
+							"                        \"deleted_at\",",
+							"                        \"is_verified\",",
+							"                        \"last_logged_in\",",
+							"                        \"updated_at\",",
+							"                        \"avatar_file\",",
+							"                        \"full_name\",",
+							"                        \"heat_score\"",
+							"                    ]",
+							"                },",
+							"                \"token\": {",
+							"                    \"type\": \"string\"",
+							"                }",
+							"            },",
+							"            \"required\": [",
+							"                \"newUser\",",
+							"                \"token\"",
+							"            ]",
+							"        },",
+							"        \"message\": {",
+							"            \"type\": \"string\"",
+							"        }",
+							"    },",
+							"    \"additionalProperties\": true,",
+							"",
+							"    \"required\": [",
+							"        \"status\",",
+							"        \"statusCode\",",
+							"        \"data\",",
+							"        \"message\"",
+							"    ]",
+							"};",
+							"",
+							"// Creating the schema with invalid Data",
+							"var failed_schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"status\": {",
+							"            \"type\": \"boolean\"",
+							"        },",
+							"        \"statusCode\": {",
+							"            \"type\": \"integer\"",
+							"        },",
+							"        \"message\": {",
+							"            \"type\": \"string\"",
+							"        },",
+							"        \"errors\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": [",
+							"                {",
+							"                    \"type\": \"array\",",
+							"                    \"items\": [",
+							"                        {",
+							"                            \"type\": \"string\"",
+							"                        }",
+							"                    ]",
+							"                }",
+							"            ]",
+							"        }",
+							"    },",
+							"    \"required\": [",
+							"        \"status\",",
+							"        \"statusCode\",",
+							"        \"message\",",
+							"        \"errors\"",
+							"    ]",
+							"};",
+							"",
+							"",
+							"// Response Validation using conditions",
+							"if (pm.response.code === 200) {",
+							"    // Parse the JSON body as JSON",
+							"    var jsonData = pm.response.json();",
+							"",
+							"    // Setting the collection Variable",
+							"    pm.collectionVariables.set(\"id_env\", jsonData.data.newUser.id);",
+							"    pm.collectionVariables.set(\"email_env\", jsonData.data.newUser.email);",
+							"    pm.collectionVariables.set(\"fname_env\", jsonData.data.newUser.full_name);",
+							"    pm.collectionVariables.set(\"ccode_env\", jsonData.data.newUser.country_code);",
+							"",
+							"    // Validating the status code ",
+							"    pm.test(\"Status code is 200\", () => {",
+							"        pm.response.to.have.status(200);",
+							"    });",
+							"",
+							"    // Or",
+							"    pm.test(\"Status code is oneof 200\", () => {",
+							"        pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"    });",
+							"",
+							"    // Validating the header presence",
+							"    pm.test(\"Headers contain application/json\", () => {",
+							"        pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');",
+							"    });",
+							"",
+							"    // Validating cookies presence",
+							"    pm.test(\"Cookies are not present\", () => {",
+							"        pm.expect(pm.response.cookies.has('Cookies')).to.be.false;",
+							"    });",
+							"",
+							"    // Validating the response time",
+							"    pm.test(\"Response time is above 100\", () => {",
+							"        pm.expect(pm.response.responseTime).to.be.above(100);",
+							"    });",
+							"",
+							"",
+							"    // Validating the Response Body",
+							"    pm.test(\"Validating the response datatype\", () => {",
+							"        pm.expect(jsonData).to.be.an('object');",
+							"        pm.expect(jsonData.data.newUser.id).to.be.a(\"number\");",
+							"        pm.expect(jsonData.data.newUser.email).to.be.a('string');",
+							"        pm.expect(jsonData.data.newUser.full_name).to.be.a('string');",
+							"        pm.expect(jsonData.data.newUser.is_verified).to.be.a('boolean');",
+							"        pm.expect(jsonData.data.newUser.country_code).to.be.a('string');",
+							"    });",
+							"",
+							"    // Comparing the data of the  response",
+							"    pm.test(\"Test array properties with value\", () => {",
+							"        // pm.expect(jsonData.data.newUser.id).to.include(pm.collectionVariables.get(\"id_env\"));",
+							"        pm.expect(jsonData.data.newUser.email).to.include(pm.collectionVariables.get(\"email_env\"));",
+							"        pm.expect(jsonData.data.newUser.full_name).to.include(pm.collectionVariables.get(\"fname_env\"));",
+							"        pm.expect(jsonData.data.newUser.country_code).to.include(pm.collectionVariables.get(\"ccode_env\"));",
+							"",
+							"    });",
+							"",
+							"    //Validating the JSON response field",
+							"    pm.test(\"Validating the JSON response field have correct value\", () => {",
+							"        pm.expect(jsonData.data.newUser.id).to.eq(pm.collectionVariables.get(\"id_env\"));",
+							"        pm.expect(jsonData.data.newUser.email).to.eq(pm.collectionVariables.get(\"email_env\"));",
+							"        pm.expect(jsonData.data.newUser.full_name).to.eq(pm.collectionVariables.get(\"fname_env\"));",
+							"        pm.expect(jsonData.data.newUser.country_code).to.eq(pm.collectionVariables.get(\"ccode_env\"));",
+							"    });",
+							"",
+							"    //Success Schema Validation",
+							"    pm.test(\"Valid data Schema validation\", () => {",
+							"        pm.response.to.have.jsonSchema(success_schema);",
+							"    });",
+							"}",
+							"else {",
+							"    // Validating the Success code",
+							"    pm.test(\"Invalid Input\", () => {",
+							"        pm.expect(pm.response.code).to.have.oneOf([400, 404]);",
+							"    });",
+							"",
+							"    //Invalid Data Schema Validation",
+							"    pm.test(\"Invalid data Schema validation\", () => {",
+							"        pm.response.to.have.jsonSchema(failed_schema);",
+							"    });",
+							"",
+							"}",
+							"",
+							"// Unsetting the collection variables",
+							"pm.collectionVariables.unset(\"id_env\");",
+							"pm.collectionVariables.unset(\"email_env\");",
+							"pm.collectionVariables.unset(\"fname_env\");",
+							"pm.collectionVariables.unset(\"ccode_env\");",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "//Success Test\n// {\n//     \"email\": \"qaintern@mailinator.com\",\n//     \"password\": \"password\",\n//     \"full_name\": \"QA Intern\"\n// }\n\n//Invalid Email Address\n{\n    \"email\": \"invalidemail\",\n    \"password\": \"password\",\n    \"full_name\": \"QA Intern\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth/signup",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"qaintern@mailinator.com\",\n    \"password\": \"password\",\n    \"full_name\": \"QA Intern\"\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/signup",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"statusCode\": 200,\n    \"data\": {\n        \"newUser\": {\n            \"id\": 123,\n            \"email\": \"qaintern@mailinator.com\",\n            \"country_code\": \"NP\",\n            \"created_at\": null,\n            \"deleted_at\": null,\n            \"is_verified\": false,\n            \"last_logged_in\": null,\n            \"updated_at\": null,\n            \"avatar_file\": null,\n            \"full_name\": \"QA Intern\",\n            \"heat_score\": 0\n        },\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTQxLCJlbWFpbCI6ImVhcm5lc3Quc3BlbmNlckBtYWlsaW5hdG9yLmNvbSIsImZ1bGxfbmFtZSI6IkFCQ0QiLCJjb3VudHJ5X2NvZGUiOiJOUCIsImNyZWF0ZWRfYXQiOm51bGwsImlzX3ZlcmlmaWVkIjpmYWxzZSwibGFzdF9sb2dnZWRfaW4iOm51bGwsImF2YXRhcl9maWxlIjpudWxsLCJpYXQiOjE2ODM2OTY1MjIsImV4cCI6MTY4MzczMjUyMn0.nMoDXpu38LCi_BFpq1ZyXz5F84O1TvcFCUYU-TTF_nU\"\n    },\n    \"message\": \"New user succcessfully created.\"\n}"
+				},
+				{
+					"name": "Invalid Email",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"invalidemail\",\n    \"password\": \"password\",\n    \"full_name\": \"QA Intern\"\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/signup",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": false,\n    \"statusCode\": 400,\n    \"message\": \"Not a valid email.\",\n    \"errors\": [\n        [\n            \"Not a valid email.\"\n        ]\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Creating the schema with valid Data",
+							"var successSchema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"status\": {",
+							"            \"type\": \"boolean\"",
+							"        },",
+							"        \"statusCode\": {",
+							"            \"type\": \"integer\"",
+							"        },",
+							"        \"data\": {",
+							"            \"type\": \"object\",",
+							"            \"properties\": {",
+							"                \"user\": {",
+							"                    \"type\": \"object\",",
+							"                    \"properties\": {",
+							"                        \"id\": {",
+							"                            \"type\": \"integer\"",
+							"                        },",
+							"                        \"email\": {",
+							"                            \"type\": \"string\",",
+							"                            'pattern': \"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$\"",
+							"                        },",
+							"                        \"country_code\": {",
+							"                            \"type\": \"string\"",
+							"                        },",
+							"                        \"created_at\": {",
+							"                            \"type\": \"null\"",
+							"                        },",
+							"                        \"deleted_at\": {",
+							"                            \"type\": \"null\"",
+							"                        },",
+							"                        \"is_verified\": {",
+							"                            \"type\": \"boolean\"",
+							"                        },",
+							"                        \"last_logged_in\": {",
+							"                            \"type\": \"null\"",
+							"                        },",
+							"                        \"updated_at\": {",
+							"                            \"type\": \"null\"",
+							"                        },",
+							"                        \"avatar_file\": {",
+							"                            \"type\": \"null\"",
+							"                        },",
+							"                        \"full_name\": {",
+							"                            \"type\": \"string\"",
+							"                        },",
+							"                        \"heat_score\": {",
+							"                            \"type\": \"integer\"",
+							"                        }",
+							"                    },",
+							"                    \"required\": [",
+							"                        \"id\",",
+							"                        \"email\",",
+							"                        \"country_code\",",
+							"                        \"created_at\",",
+							"                        \"deleted_at\",",
+							"                        \"is_verified\",",
+							"                        \"last_logged_in\",",
+							"                        \"updated_at\",",
+							"                        \"avatar_file\",",
+							"                        \"full_name\",",
+							"                        \"heat_score\"",
+							"                    ]",
+							"                },",
+							"                \"token\": {",
+							"                    \"type\": \"string\"",
+							"                }",
+							"            },",
+							"            \"required\": [",
+							"                \"user\",",
+							"                \"token\"",
+							"            ]",
+							"        },",
+							"        \"message\": {",
+							"            \"type\": \"string\"",
+							"        }",
+							"    },",
+							"    \"required\": [",
+							"        \"status\",",
+							"        \"statusCode\",",
+							"        \"data\",",
+							"        \"message\"",
+							"    ]",
+							"}",
+							"",
+							"// Creating the schema with invalid Data",
+							"var failedSchema={",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"errors\": {",
+							"      \"type\": \"array\",",
+							"      \"items\": [",
+							"        {",
+							"          \"type\": \"string\"",
+							"        }",
+							"      ]",
+							"    },",
+							"    \"statusCode\": {",
+							"      \"type\": \"integer\"",
+							"    },",
+							"    \"message\": {",
+							"      \"type\": \"string\"",
+							"    }",
+							"  },",
+							"  \"required\": [",
+							"    \"errors\",",
+							"    \"statusCode\",",
+							"    \"message\"",
+							"  ]",
+							"}",
+							"",
+							"",
+							"",
+							"// Creating the condition for valid and invalid data ",
+							"if (pm.response.code == 200) {",
+							"",
+							"    // Parse the JSON body as JSON",
+							"    var jsonData = pm.response.json();",
+							"",
+							"    // Setting the collection Variable",
+							"    pm.collectionVariables.set(\"id_env\", jsonData.data.user.id);",
+							"    pm.collectionVariables.set(\"email_env\", jsonData.data.user.email);",
+							"    pm.collectionVariables.set(\"fname_env\", jsonData.data.user.full_name);",
+							"    pm.collectionVariables.set(\"ccode_env\", jsonData.data.user.country_code);",
+							"",
+							"    // Validating the status code",
+							"    pm.test(\"Checking the status code is 200\", () => {",
+							"        pm.expect(pm.response.code).to.be.oneOf([200, 201])",
+							"    });",
+							"",
+							"    // Validating the headers",
+							"    pm.test(\"Checking the header is application/json\", () => {",
+							"        pm.expect(pm.response.headers.get('Content-Type')).to.eq(\"application/json; charset=utf-8\");",
+							"    });",
+							"",
+							"    // Validating the cookies presence",
+							"    pm.test(\"Validating the presence of cookies\", () => {",
+							"        pm.expect(pm.response.cookies.has('cookies')).to.be.false;",
+							"    });",
+							"",
+							"    // Validating the responseTime",
+							"    pm.test(\"Validating the responseTime is above 100\", () => {",
+							"        pm.expect(pm.response.responseTime).to.be.above(100);",
+							"    });",
+							"",
+							"    // Validating the response datatypes ",
+							"    pm.test(\"Validating the response datatypes\", () => {",
+							"        pm.expect(jsonData).to.be.an('object');",
+							"        pm.expect(jsonData.data.user.id).to.be.a(\"number\");",
+							"        pm.expect(jsonData.data.user.email).to.be.a('string');",
+							"        pm.expect(jsonData.data.user.full_name).to.be.a('string');",
+							"        pm.expect(jsonData.data.user.is_verified).to.be.a('boolean');",
+							"        pm.expect(jsonData.data.user.country_code).to.be.a('string');",
+							"    });",
+							"",
+							"    // Validating the response value",
+							"    pm.test(\"Comparing the response data\", () => {",
+							"        // pm.expect(jsonData.data.user.id).to.be.include(123);",
+							"        pm.expect(jsonData.data.user.email).to.be.include('qaintern@mailinator.com');",
+							"        pm.expect(jsonData.data.user.full_name).to.include(\"QA Intern\");",
+							"        pm.expect(jsonData.data.user.country_code).to.include(\"NP\");",
+							"    });",
+							"",
+							"    //Validating the JSON response field",
+							"    pm.test(\"Validating the JSON response field have correct value\", () => {",
+							"        pm.expect(jsonData.data.user.id).to.eq(pm.collectionVariables.get(\"id_env\"));",
+							"        pm.expect(jsonData.data.user.email).to.eq(pm.collectionVariables.get(\"email_env\"));",
+							"        pm.expect(jsonData.data.user.full_name).to.eq(pm.collectionVariables.get(\"fname_env\"));",
+							"        pm.expect(jsonData.data.user.country_code).to.eq(pm.collectionVariables.get(\"ccode_env\"));",
+							"    });",
+							"",
+							"    //Success Schema Validation",
+							"    pm.test(\"Valid data Schema validation\", () => {",
+							"        pm.response.to.have.jsonSchema(successSchema);",
+							"    });",
+							"}",
+							"",
+							"else {",
+							"    pm.test(\"Invalid Input\", () => {",
+							"        pm.expect(pm.response.code).to.have.oneOf([400, 404]);",
+							"    });",
+							"",
+							"    //Failed Schema Validation",
+							"    pm.test(\"InValid data Schema validation\", () => {",
+							"        pm.response.to.have.jsonSchema(failedSchema);",
+							"    });",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "//Success login\n// {   \"email\":\"qaintern@mailinator.com\",\n//     \"password\": \"password\"\n// }\n\n//Invalid login\n// {\n//     \"email\": \"qaintern@mailinator.com\",\n//     \"password\": \"invalidpassword\"\n// }\n// Login After Password Reset\n{   \"email\":\"qaintern@mailinator.com\",\n    \"password\": \"NEW-PASSWORD\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \"email\":\"qaintern@mailinator.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"statusCode\": 200,\n    \"data\": {\n        \"user\": {\n            \"id\": 123,\n            \"email\": \"qaintern@mailinator.com\",\n            \"country_code\": \"NP\",\n            \"created_at\": null,\n            \"deleted_at\": null,\n            \"is_verified\": false,\n            \"last_logged_in\": null,\n            \"updated_at\": null,\n            \"avatar_file\": null,\n            \"full_name\": \"QA Intern\",\n            \"heat_score\": 0\n        },\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODAzMDY2LCJlbWFpbCI6Im1hbGluZGEubGVncm9zQGdtYWlsaW5hdG9yLmNvbSIsImZ1bGxfbmFtZSI6IlJhbSBSYWkiLCJjb3VudHJ5X2NvZGUiOiJOUCIsImNyZWF0ZWRfYXQiOm51bGwsImlzX3ZlcmlmaWVkIjpmYWxzZSwibGFzdF9sb2dnZWRfaW4iOm51bGwsImF2YXRhcl9maWxlIjpudWxsLCJpYXQiOjE3MjQ3MzY3MDQsImV4cCI6MTcyNDc3MjcwNH0.0hF1EQsMguLf8ilLoBbPeJhC4u5AerhJtNsZRIan2zg\"\n    },\n    \"message\": \"Login successful.\"\n}"
+				},
+				{
+					"name": "Invalid password",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \"email\":\"qaintern@mailinator.com\",\n    \"password\": \"invalidpassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errors\": [\n        \"Invalid Password.\"\n    ],\n    \"statusCode\": 400,\n    \"message\": \"Invalid Password.\"\n}"
+				},
+				{
+					"name": "Success after Reset",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \"email\":\"qaintern@mailinator.com\",\n    \"password\": \"NEW-PASSWORD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"statusCode\": 200,\n    \"data\": {\n        \"user\": {\n            \"id\": 123,\n            \"email\": \"qaintern@mailinator.com\",\n            \"country_code\": \"NP\",\n            \"created_at\": null,\n            \"deleted_at\": null,\n            \"is_verified\": false,\n            \"last_logged_in\": null,\n            \"updated_at\": null,\n            \"avatar_file\": null,\n            \"full_name\": \"QA Intern\",\n            \"heat_score\": 0\n        },\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODAzMDY2LCJlbWFpbCI6Im1hbGluZGEubGVncm9zQGdtYWlsaW5hdG9yLmNvbSIsImZ1bGxfbmFtZSI6IlJhbSBSYWkiLCJjb3VudHJ5X2NvZGUiOiJOUCIsImNyZWF0ZWRfYXQiOm51bGwsImlzX3ZlcmlmaWVkIjpmYWxzZSwibGFzdF9sb2dnZWRfaW4iOm51bGwsImF2YXRhcl9maWxlIjpudWxsLCJpYXQiOjE3MjQ3MzY3MDQsImV4cCI6MTcyNDc3MjcwNH0.0hF1EQsMguLf8ilLoBbPeJhC4u5AerhJtNsZRIan2zg\"\n    },\n    \"message\": \"Login successful after reset\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Forgot Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var sucessSchema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"status\": {",
+							"            \"type\": \"boolean\"",
+							"        },",
+							"        \"statusCode\": {",
+							"            \"type\": \"integer\"",
+							"        },",
+							"        \"data\": {",
+							"            \"type\": \"object\",",
+							"            \"properties\": {",
+							"                \"newToken\": {",
+							"                    \"type\": \"object\",",
+							"                    \"properties\": {",
+							"                        \"id\": {",
+							"                            \"type\": \"integer\"",
+							"                        },",
+							"                        \"user_id\": {",
+							"                            \"type\": \"integer\"",
+							"                        },",
+							"                        \"password_reset_token\": {",
+							"                            \"type\": \"string\"",
+							"                        },",
+							"                        \"token_expiry_date\": {",
+							"                            \"type\": \"integer\"",
+							"                        },",
+							"                        \"created_at\": {",
+							"                            \"type\": \"string\"",
+							"                        }",
+							"                    },",
+							"                    \"required\": [",
+							"                        \"id\",",
+							"                        \"user_id\",",
+							"                        \"password_reset_token\",",
+							"                        \"token_expiry_date\",",
+							"                        \"created_at\"",
+							"                    ]",
+							"                }",
+							"            },",
+							"            \"required\": [",
+							"                \"newToken\"",
+							"            ]",
+							"        },",
+							"        \"message\": {",
+							"            \"type\": \"string\"",
+							"        }",
+							"    },",
+							"    \"required\": [",
+							"        \"status\",",
+							"        \"statusCode\",",
+							"        \"data\",",
+							"        \"message\"",
+							"    ]",
+							"}",
+							"",
+							"var failedSchema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"status\": {",
+							"            \"type\": \"boolean\"",
+							"        },",
+							"        \"statusCode\": {",
+							"            \"type\": \"integer\"",
+							"        },",
+							"        \"message\": {",
+							"            \"type\": \"string\"",
+							"        },",
+							"        \"errors\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": [",
+							"                {",
+							"                    \"type\": \"array\",",
+							"                    \"items\": [",
+							"                        {",
+							"                            \"type\": \"string\"",
+							"                        }",
+							"                    ]",
+							"                }",
+							"            ]",
+							"        }",
+							"    },",
+							"    \"required\": [",
+							"        \"status\",",
+							"        \"statusCode\",",
+							"        \"message\",",
+							"        \"errors\"",
+							"    ]",
+							"}",
+							"",
+							"if (pm.response.code == 200) {",
+							"    // Parse the JSON body as JSON",
+							"    var jsonData = pm.response.json();",
+							"",
+							"    pm.collectionVariables.set(\"reset_token\",jsonData.data.newToken.password_reset_token);",
+							"",
+							"    //Checking status code",
+							"    pm.test(\"Status code is 200\", () => {",
+							"        pm.expect(pm.response.code).to.be.oneOf([200, 201])",
+							"    })",
+							"",
+							"    // checking the response time",
+							"    pm.test(\"Response time in above 100\",()=>{",
+							"        pm.expect(pm.response.responseTime).to.be.above(100)",
+							"    })",
+							"",
+							"    // Validating the Success Schema",
+							"    pm.test(\"Validating the Schema\", () => {",
+							"        pm.response.to.have.jsonSchema(sucessSchema)",
+							"    })",
+							"",
+							"",
+							"}",
+							"else {",
+							"    //Checking the status cpde",
+							"    pm.test(\"Status code is 400\", () => {",
+							"        pm.response.to.have.status(400)",
+							"    })",
+							"",
+							"    // validating the Failed Schema",
+							"    pm.test(\"Validating the Schema\", () => {",
+							"        pm.response.to.have.jsonSchema(failedSchema)",
+							"    })",
+							"",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "//Success\n\n{\n    \"email\": \"qaintern@mailinator.com\"\n}\n\n//Invalid Email\n\n// {\n//     \"email\": \"invalidemail\"\n// }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth/forgot-password",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"forgot-password"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"qaintern@mailinator.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/forgot-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"statusCode\": 200,\n    \"data\": {\n        \"newToken\": {\n            \"id\": 200,\n            \"user_id\": 123,\n            \"password_reset_token\": \"30e0b49de32e344c42b7d9fd75c772ff74fcf0c9bb301b413125261340bce10d\",\n            \"token_expiry_date\": 1767937072,\n            \"created_at\": \"2024-08-27T00:00:00.000Z\"\n        }\n    },\n    \"message\": \"Token sent successfully.\"\n}"
+				},
+				{
+					"name": "Invalid Email",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"invalidemail\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/forgot-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": false,\n    \"statusCode\": 400,\n    \"message\": \"Not a valid email.\",\n    \"errors\": [\n        [\n            \"Not a valid email.\"\n        ]\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Reset Password",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code == 200) {",
+							"var jsonData = pm.response.json();",
+							"pm.collectionVariables.set('email', jsonData.data.updatedUser.email);",
+							"pm.collectionVariables.set('password', 'NEW-PASSWORD')",
+							"",
+							"",
+							"    // Checking the status code",
+							"    pm.test(\"Checking the Status code is 200\", () => {",
+							"        pm.response.to.have.status(200)",
+							"",
+							"        pm.sendRequest({",
+							"            url: pm.collectionVariables.get('url') + \"/auth/login\",",
+							"            method: \"POST\",",
+							"            header: {",
+							"                \"Content-Type\": \"application/json\"",
+							"            },",
+							"            body: {",
+							"                mode: 'raw',",
+							"                raw: JSON.stringify({",
+							"                    email: pm.collectionVariables.get('email'),",
+							"                    password: pm.collectionVariables.get('password')",
+							"                })",
+							"            }",
+							"        }),",
+							"",
+							"        function(err, response) {",
+							"            pm.test(\"Check if POST request is successful\", () => {",
+							"                pm.response.to.have.status(200)",
+							"",
+							"            });",
+							"        };",
+							"    });",
+							"",
+							"    // checking the response time",
+							"    pm.test(\"Response time in above 100\", () => {",
+							"        pm.expect(pm.response.responseTime).to.be.above(100)",
+							"    })",
+							"}",
+							"",
+							"else {",
+							"    // Checking the status code",
+							"    pm.test(\"Checking the Status code is 400\", () => {",
+							"        pm.response.to.have.status(400)",
+							"    })",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "//SUCCESS WITH VALID TOKEN\n\n{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\",\n    \"token\": \"{{reset_token}}\"\n\n}\n\n//INVALID TOKEN\n\n// {\n//     \"email\": \"qaintern@mailinator.com\",\n//     \"password\": \"NEW-PASSWORD\",\n//     \"token\": \"invalid-reset-token\"\n// }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth/reset-password",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"reset-password"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"qaintern@mailinator.com\",\n    \"password\": \"NEW-PASSWORD\",\n    \"token\": \"30e0b49de32e344c42b7d9fd75c772ff74fcf0c9bb301b413125261340bce10d\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://1f8844ef-6d2e-4d33-aa15-34c6cc417959.mock.pstmn.io/auth/reset-password",
+							"protocol": "https",
+							"host": [
+								"1f8844ef-6d2e-4d33-aa15-34c6cc417959",
+								"mock",
+								"pstmn",
+								"io"
+							],
+							"path": [
+								"auth",
+								"reset-password"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"statusCode\": 200,\n    \"data\": {\n        \"updatedUser\": {\n            \"id\": 123,\n            \"email\": \"qaintern@mailinator.com\",\n            \"full_name\": \"QA Intern\"\n        }\n    },\n    \"message\": \"Password updated successfully.\"\n}"
+				},
+				{
+					"name": "Invalid Reset Token",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"qaintern@mailinator.com\",\n    \"password\": \"NEW-PASSWORD\",\n    \"token\": \"invalid-reset-token\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://1f8844ef-6d2e-4d33-aa15-34c6cc417959.mock.pstmn.io/auth/reset-password",
+							"protocol": "https",
+							"host": [
+								"1f8844ef-6d2e-4d33-aa15-34c6cc417959",
+								"mock",
+								"pstmn",
+								"io"
+							],
+							"path": [
+								"auth",
+								"reset-password"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errors\": [\n        \"Invalid or expired password reset token\"\n    ],\n    \"statusCode\": 400,\n    \"message\": \"Invalid or expired password reset token\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://1f8844ef-6d2e-4d33-aa15-34c6cc417959.mock.pstmn.io"
+		},
+		{
+			"key": "Token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "reset_token",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "id_env",
+			"value": ""
+		},
+		{
+			"key": "email_env",
+			"value": ""
+		},
+		{
+			"key": "fname_env",
+			"value": ""
+		},
+		{
+			"key": "ccode_env",
+			"value": ""
+		}
+	]
+}
